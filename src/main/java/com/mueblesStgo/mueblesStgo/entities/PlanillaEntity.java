@@ -32,4 +32,20 @@ public class PlanillaEntity {
     private float cotizacionSalud;
     private float montoSueldoFinal;
     private LocalDate fecha;
+
+    public PlanillaEntity(String rutEmpleado, String nombreApellido, char categoria, float aniosServicio, float sueldoFijoMensual, float montoBonificacionAniosServicio, float pagoHorasExtra, float descuentos, float sueldoBruto, float cotizacionPrevisional, float cotizacionSalud, float montoSueldoFinal, LocalDate fecha) {
+        this.rutEmpleado = rutEmpleado;
+        this.nombreApellido = nombreApellido;
+        this.categoria = categoria;
+        this.aniosServicio = aniosServicio;
+        this.sueldoFijoMensual = sueldoFijoMensual;
+        this.montoBonificacionAniosServicio = montoBonificacionAniosServicio;
+        this.pagoHorasExtra = pagoHorasExtra;
+        this.descuentos = descuentos;
+        this.sueldoBruto = sueldoBruto;
+        this.cotizacionPrevisional = cotizacionPrevisional;
+        this.cotizacionSalud = cotizacionSalud;
+        this.montoSueldoFinal = montoSueldoFinal;
+        this.fecha = fecha;
+    }
 }

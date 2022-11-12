@@ -1,16 +1,17 @@
 package com.mueblesStgo.mueblesStgo.controllers;
 
+import com.mueblesStgo.mueblesStgo.entities.PlanillaEntity;
 import com.mueblesStgo.mueblesStgo.models.AutorizacionModel;
+import com.mueblesStgo.mueblesStgo.models.EmpleadoModel;
 import com.mueblesStgo.mueblesStgo.models.JustificativoModel;
 import com.mueblesStgo.mueblesStgo.services.AutorizacionService;
+import com.mueblesStgo.mueblesStgo.services.EmpleadoService;
 import com.mueblesStgo.mueblesStgo.services.JustificativoService;
 import com.mueblesStgo.mueblesStgo.services.PlanillaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,7 +27,14 @@ public class PlanillaController {
     @Autowired
     JustificativoService justificativoService;
     @Autowired
+    EmpleadoService empleadoService;
+    @Autowired
     PlanillaService planillaService;
+
+    @GetMapping()
+    public List<PlanillaEntity> obtenerPlanilla(){
+        return planillaService.obtenerSueldo();
+    }
 
     @GetMapping("/autorizaciones")
     public List<AutorizacionModel> exportarAutorizaciones(HttpServletResponse response) throws IOException {
@@ -37,6 +45,15 @@ public class PlanillaController {
         return autorizaciones;
     }
 
+    @GetMapping("/empleados")
+    public List<EmpleadoModel> exportarEmpleados(HttpServletResponse response) throws IOException {
+        List<EmpleadoModel> empleados = empleadoService.obtenerEmpleados();
+        if (empleados == null) {
+            empleados = new ArrayList<>();
+        }
+        return empleados;
+    }
+
     @GetMapping("/justificativos")
     public List<JustificativoModel> exportarJustificativos(HttpServletResponse response) throws IOException {
         List<JustificativoModel> justificaciones = justificativoService.obtenerJustificativos();
@@ -44,5 +61,11 @@ public class PlanillaController {
             justificaciones = new ArrayList<>();
         }
         return justificaciones;
+    }
+
+    @PostMapping("/calcularPlanilla")
+    public String calculoPlanillas(@RequestBody String orden){
+        planillaService.calculoPlanillas();
+        return "Recibido";
     }
 }

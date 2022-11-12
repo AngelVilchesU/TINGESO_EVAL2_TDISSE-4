@@ -1,5 +1,6 @@
 package com.mueblesStgo.mueblesStgo.services;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,5 +34,27 @@ public class AutorizacionService {
         return Arrays.stream(records)
                 .map(autorizacion -> mapper.convertValue(autorizacion, AutorizacionModel.class))
                 .collect(Collectors.toList());
+    }
+
+    public boolean tieneAutorizacion(LocalDate fechaHorasExtra, String rutEmpleado){
+        List<AutorizacionModel> autorizacionModels = obtenerAutorizaciones();
+        for (int i = 0; i < autorizacionModels.size(); i++){
+            if(autorizacionModels.get(i).getFechaHoraExtra().equals(fechaHorasExtra) &&
+                    autorizacionModels.get(i).getRutEmpleado().equals(rutEmpleado)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public float horasExtra(LocalDate fechaHorasExtra, String rutEmpleado){
+        List<AutorizacionModel> autorizacionModels = obtenerAutorizaciones();
+        for (int i = 0; i < autorizacionModels.size(); i++){
+            if(autorizacionModels.get(i).getFechaHoraExtra().equals(fechaHorasExtra) &&
+                    autorizacionModels.get(i).getRutEmpleado().equals(rutEmpleado)){
+                return autorizacionModels.get(i).getHorasExtra();
+            }
+        }
+        return 0;
     }
 }

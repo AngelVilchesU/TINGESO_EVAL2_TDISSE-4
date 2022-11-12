@@ -32,4 +32,26 @@ public class BonificacionService {
                 .map(autorizacion -> mapper.convertValue(autorizacion, BonificacionModel.class))
                 .collect(Collectors.toList());
     }
+
+    public float bonificacionAniosServicio(float aniosServicio){
+        int i;
+        List<BonificacionModel> bonificacionModelList = obtenerBonificaciones();
+        for (i = 0; i < bonificacionModelList.size(); i++){
+            if(aniosServicio < bonificacionModelList.get(i).getAniosServicio()){
+                if (i == 0){
+                    return 0;
+                }
+                else {
+                    return bonificacionModelList.get(i - 1).getBono();
+                }
+            }
+        }
+        return bonificacionModelList.get(i - 1).getBono();
+    }
+
+    public float sueldoBonificacionPorcentual(float sueldo, float bPorcentual){
+        float bPorcentajeDecimal = (bPorcentual + 100) / 100; // Conversión de porcentaje a decimal
+        return sueldo * bPorcentajeDecimal - sueldo;
+    }
+
 }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,5 +32,16 @@ public class JustificativoService {
         return Arrays.stream(records)
                 .map(autorizacion -> mapper.convertValue(autorizacion, JustificativoModel.class))
                 .collect(Collectors.toList());
+    }
+
+    public boolean estaJustificado(LocalDate fechaInasistencia, String rutEmpleado){
+        List<JustificativoModel> justificativoModels = obtenerJustificativos();
+        for (int i = 0; i < justificativoModels.size(); i++){
+            if (justificativoModels.get(i).getRutEmpleado().equals(rutEmpleado) &&
+                    justificativoModels.get(i).getFechaInasistencia().equals(fechaInasistencia)){
+                return true;
+            }
+        }
+        return false;
     }
 }
